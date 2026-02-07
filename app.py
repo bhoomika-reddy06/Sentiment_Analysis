@@ -6,8 +6,9 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 
+# --------------------------------------------------
 # Page Config
-
+# --------------------------------------------------
 st.set_page_config(
     page_title="Sentiment Analysis",
     page_icon="💬",
@@ -15,8 +16,9 @@ st.set_page_config(
 )
 
 
-# Custom CSS Styling
-
+# --------------------------------------------------
+# Custom CSS Styling (Light Elegant Theme)
+# --------------------------------------------------
 st.markdown("""
 <style>
 
@@ -27,70 +29,98 @@ html, body, [class*="css"]  {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Main background */
+/* Light Gradient Background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #f3f7ff, #e6ecff);
 }
 
-/* Heading style */
+/* Glass Container Effect */
+.block-container {
+    max-width: 700px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Heading */
 .custom-title {
     text-align: center;
-    font-size: 48px;
+    font-size: 46px;
     font-weight: 800;
-    color: #1f1f1f;   /* Dark color */
-    margin-bottom: 10px;
+    color: #2c3e50;
+    margin-bottom: 5px;
 }
 
-/* Subtitle style */
+/* Subtitle */
 .custom-subtitle {
     text-align: center;
     font-size: 18px;
-    font-weight: 400;
-    color: #2d2d2d;   /* Slight dark grey */
+    color: #5f6c7b;
     margin-bottom: 30px;
 }
 
-/* Button styling */
+/* Text Area Styling */
+textarea {
+    border-radius: 12px !important;
+    border: 1px solid #dfe6e9 !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+}
+
+/* Button Styling */
 .stButton>button {
-    background-color: #ff4b4b;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
     color: white;
     border-radius: 12px;
     height: 3em;
     width: 100%;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    border: none;
 }
 
 .stButton>button:hover {
-    background-color: #e63946;
+    background: linear-gradient(135deg, #66a6ff, #89f7fe);
     color: white;
+}
+
+/* Divider */
+hr {
+    border: none;
+    height: 1px;
+    background: #e0e0e0;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
+
+# --------------------------------------------------
 # Header Section
-
-st.markdown('<div class="custom-title">💬 Sentiment Analysis App</div>', unsafe_allow_html=True)
+# --------------------------------------------------
+st.markdown('<div class="custom-title">💬 Sentiment Analyzer</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subtitle">Analyze your review instantly using Machine Learning 🚀</div>', unsafe_allow_html=True)
-
 
 st.write("")
 
 
+# --------------------------------------------------
 # Load Model & Vectorizer
-
+# --------------------------------------------------
 @st.cache_resource
 def load_models():
-    model = pickle.load(open("sentiment_model.pkl", "rb"))
-    vectorizer = pickle.load(open("tfidf_vectorizer.pkl", "rb"))
-    return model, vectorizer
+    return pickle.load(open("sentiment_pipeline.pkl", "rb"))
 
-model, vectorizer = load_models()
+model=load_models()
 
 
+# --------------------------------------------------
 # NLTK Setup
-
+# --------------------------------------------------
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -98,8 +128,9 @@ stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
 
+# --------------------------------------------------
 # Text Cleaning Function
-
+# --------------------------------------------------
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r'[^a-z\s]', '', text)
@@ -112,37 +143,55 @@ def clean_text(text):
     return " ".join(words)
 
 
+# --------------------------------------------------
 # Input Section
-
+# --------------------------------------------------
 review = st.text_area("📝 Enter your review here:", height=150)
 
 st.write("")
 
 
-# Prediction
-
+# --------------------------------------------------
+# Prediction Section
+# --------------------------------------------------
 if st.button("✨ Predict Sentiment"):
 
     if not review.strip():
         st.warning("⚠️ Please enter a review!")
     else:
         cleaned_review = clean_text(review)
-        vector = vectorizer.transform([cleaned_review])
-        prediction = model.predict(vector)[0]
+        prediction = model.predict([cleaned_review])[0]
+
 
         st.markdown("---")
 
         if prediction == 1:
-            st.markdown(
-                "<h2 style='color: green; text-align: center;'>😊 Positive Review</h2>",
-                unsafe_allow_html=True
-            )
+            st.markdown("""
+                <div style="
+                    background-color:#e8f9f1;
+                    padding:20px;
+                    border-radius:15px;
+                    text-align:center;
+                    font-size:24px;
+                    font-weight:600;
+                    color:#2ecc71;">
+                    😊 Positive Review
+                </div>
+            """, unsafe_allow_html=True)
             st.balloons()
         else:
-            st.markdown(
-                "<h2 style='color: red; text-align: center;'>😞 Negative Review</h2>",
-                unsafe_allow_html=True
-            )
+            st.markdown("""
+                <div style="
+                    background-color:#fdecea;
+                    padding:20px;
+                    border-radius:15px;
+                    text-align:center;
+                    font-size:24px;
+                    font-weight:600;
+                    color:#e74c3c;">
+                    😞 Negative Review
+                </div>
+            """, unsafe_allow_html=True)
 
         st.markdown("### 📌 Your Review:")
         st.info(review)

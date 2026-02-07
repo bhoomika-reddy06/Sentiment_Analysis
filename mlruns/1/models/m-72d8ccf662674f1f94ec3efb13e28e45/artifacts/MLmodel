@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/Bhoomsey/Desktop/Sentimental_analysis_project/mlruns/1/models/m-72d8ccf662674f1f94ec3efb13e28e45/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.7
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.9.0
+model_id: m-72d8ccf662674f1f94ec3efb13e28e45
+model_size_bytes: 27950
+model_uuid: m-72d8ccf662674f1f94ec3efb13e28e45
+prompts: null
+run_id: d157f767aed746d98ab9698719424995
+utc_time_created: '2026-02-07 07:37:57.442533'
