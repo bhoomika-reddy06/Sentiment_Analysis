@@ -1,6 +1,5 @@
-# ====================================================
+
 # training_file.py
-# ====================================================
 
 import pandas as pd
 import re
@@ -24,9 +23,9 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 
 
-# ----------------------------
+
 # Load Data
-# ----------------------------
+
 @task
 def load_data():
     df = pd.read_csv("badmiton_review_data.csv")
@@ -35,9 +34,9 @@ def load_data():
     return df
 
 
-# ----------------------------
+
 # Preprocess Data
-# ----------------------------
+
 @task
 def preprocess_data(df):
 
@@ -59,9 +58,9 @@ def preprocess_data(df):
     return df
 
 
-# ----------------------------
+
 # Train + Log Model
-# ----------------------------
+
 @task
 def train_and_log_model(df):
 
@@ -105,9 +104,9 @@ def train_and_log_model(df):
     return f1, acc
 
 
-# ----------------------------
+
 # Flow
-# ----------------------------
+
 @flow
 def sentiment_training_pipeline():
     df = load_data()

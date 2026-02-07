@@ -6,9 +6,9 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 
-# --------------------------------------------------
+
 # Page Config
-# --------------------------------------------------
+
 st.set_page_config(
     page_title="Sentiment Analysis",
     page_icon="💬",
@@ -16,9 +16,9 @@ st.set_page_config(
 )
 
 
-# --------------------------------------------------
-# Custom CSS Styling (Light Elegant Theme)
-# --------------------------------------------------
+
+# Custom CSS Styling
+
 st.markdown("""
 <style>
 
@@ -99,18 +99,18 @@ hr {
 """, unsafe_allow_html=True)
 
 
-# --------------------------------------------------
+
 # Header Section
-# --------------------------------------------------
+
 st.markdown('<div class="custom-title">💬 Sentiment Analyzer</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subtitle">Analyze your review instantly using Machine Learning 🚀</div>', unsafe_allow_html=True)
 
 st.write("")
 
 
-# --------------------------------------------------
+
 # Load Model & Vectorizer
-# --------------------------------------------------
+
 @st.cache_resource
 def load_models():
     return pickle.load(open("sentiment_pipeline.pkl", "rb"))
@@ -118,9 +118,9 @@ def load_models():
 model=load_models()
 
 
-# --------------------------------------------------
+
 # NLTK Setup
-# --------------------------------------------------
+
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -128,9 +128,9 @@ stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
 
-# --------------------------------------------------
+
 # Text Cleaning Function
-# --------------------------------------------------
+
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r'[^a-z\s]', '', text)
@@ -143,17 +143,17 @@ def clean_text(text):
     return " ".join(words)
 
 
-# --------------------------------------------------
+
 # Input Section
-# --------------------------------------------------
+
 review = st.text_area("📝 Enter your review here:", height=150)
 
 st.write("")
 
 
-# --------------------------------------------------
+
 # Prediction Section
-# --------------------------------------------------
+
 if st.button("✨ Predict Sentiment"):
 
     if not review.strip():
